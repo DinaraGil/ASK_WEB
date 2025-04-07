@@ -1,0 +1,48 @@
+.custom-header {
+    background-color: #4056A1;
+    color: #EFE2BA; /* текст */
+}
+
+.logo-img {
+    max-height: 40px; /* Максимальная высота */
+    width: auto ; /* Автоматическая ширина */
+    object-fit: contain; /* Учитывает непрозрачную область */
+}
+
+.custom-sign-up-btn {
+    background-color: #C5CBE3;
+    color: #4056A1;
+    border: none;
+    font-weight: 1000;
+}
+
+.ask-btn {
+    font-weight: 1000;
+    color: #4056A1;
+    background-color: #D79922;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+h2 {
+    font-weight: 1000;
+    color: #4056A1;
+    margin-bottom: 30px;
+}
+
+.main-content {
+    padding-bottom: 50px;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Высота footer */
+    height: 50px;
+    background: #4056A1;
+}

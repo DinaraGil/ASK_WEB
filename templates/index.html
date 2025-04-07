@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}ASK{% endblock %}
+
+{% block content %}
+
+
+    <div class="main-content">
+
+              <!-- Левая колонка: New Questions -->
+                  <h2 class="me-5" style="display: inline;">NEW QUESTIONS</h2>
+                  <a href="#" class="mb-3" style="display: inline-block;">HOT QUESTIONS</a>
+
+                  <div class="card shadow-sm p-3 mb-3">
+                      <div class="d-flex">
+                          <img src="author.jpg" alt="Автор" class="rounded-circle me-3" width="50" height="50">
+                          <div class="flex-grow-1">
+                              <a href="#" class="fw-bold text-decoration-none text-primary">Как исправить ошибку 404?</a>
+                              <p class="mb-2 text-muted">У меня на сайте возникает ошибка 404, когда я пытаюсь...</p>
+                              <div class="d-flex align-items-center">
+                                  <div class="d-flex align-items-center me-3">
+                                      <button class="btn btn-outline-success btn-sm">▲</button>
+                                      <span class="mx-2 fw-bold">12</span>
+                                      <button class="btn btn-outline-danger btn-sm">▼</button>
+                                  </div>
+                                  <div class="me-3">
+                                      <span class="fw-bold">5</span> ответов
+                                  </div>
+                                  <div>
+                                      <span class="badge bg-secondary">HTML</span>
+                                      <span class="badge bg-secondary">CSS</span>
+                                      <span class="badge bg-secondary">Bootstrap</span>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+
+                  <!-- Добавьте другие вопросы аналогично -->
+
+      <nav aria-label="Навигация по страницам">
+        <ul class="pagination justify-content-center">
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">...</a></li>
+            <li class="page-item"><a class="page-link" href="#">53</a></li>
+        </ul>
+    </nav>
+
+    </div>
+{% endblock %}
