@@ -1,0 +1,70 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %}Login{% endblock %}
+
+{% block header %}{% include 'layouts/header_not_auth.html' %}{% endblock %}
+
+{% block content %}
+
+<div class="main-content">
+    <h2>Registration</h2>
+
+    <form style="max-width: 700px;">
+        <!-- login -->
+        <div class="row align-items-center mb-3">
+            <label for="loginInput" class="col-3 col-form-label">Login</label>
+            <div class="col-9">
+                <input type="text" class="form-control" id="loginInput" placeholder="Enter yor login here">
+            </div>
+        </div>
+
+        <!-- Email -->
+        <div class="row align-items-center mb-3">
+            <label for="emailInput" class="col-3 col-form-label">Email</label>
+            <div class="col-9">
+                <input type="email" class="form-control" id="emailInput" placeholder="Enter yor email here">
+            </div>
+        </div>
+
+        <!-- NickName -->
+        <div class="row align-items-center mb-3">
+            <label for="loginInput" class="col-3 col-form-label">NickName</label>
+            <div class="col-9">
+                <input type="text" class="form-control" id="nickInput" placeholder="Enter yor nickname here">
+            </div>
+        </div>
+
+
+        <!-- password -->
+        <div class="row align-items-center mb-3">
+            <label for="passwordInput" class="col-3 col-form-label">Password</label>
+            <div class="col-9">
+                <input type="password" class="form-control" id="passwordInput">
+            </div>
+        </div>
+
+        <!-- Repeat password -->
+        <div class="row align-items-center mb-3">
+            <label for="passwordInput" class="col-3 col-form-label">Repeat password</label>
+            <div class="col-9">
+                <input type="password" class="form-control" id="repeatPasswordInput">
+            </div>
+        </div>
+
+        <!-- Upload avatar -->
+        <div class="row mb-3 align-items-center">
+            <label for="formFile" class="col-3 col-form-label">Upload avatar</label>
+            <div class="col-9">
+                <input class="form-control" type="file" id="formFile">
+            </div>
+        </div>
+
+
+        <button type="submit" class="btn btn-dark">Register!</button>
+
+
+    </form>
+</div>
+
+{% endblock %}

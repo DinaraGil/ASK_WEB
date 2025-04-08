@@ -1,0 +1,28 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %}INDEX{% endblock %}
+
+{% block header %}{% include 'layouts/header_not_auth.html' %}{% endblock %}
+
+{% block content %}
+
+<div class="main-content">
+    <!-- Левая колонка-->
+    <h2 class="me-5" style="display: inline;">{{ question.title }}</h2>
+
+    {% include 'layouts/question.html' %}
+
+    <nav aria-label="Навигация по страницам">
+        <ul class="pagination justify-content-center">
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">...</a></li>
+            <li class="page-item"><a class="page-link" href="#">53</a></li>
+        </ul>
+    </nav>
+
+</div>
+
+{% endblock %}

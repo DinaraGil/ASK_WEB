@@ -1,0 +1,38 @@
+{% load static %}
+
+<div class="container">
+    <div class="row align-items-center">
+        <div class="col-md-3">
+            <a href="/" class="d-flex align-items-center text-white text-decoration-none">
+                <img src="{% static 'img/logo.png' %}" alt="Логотип" class="logo-img me-3">
+            </a>
+        </div>
+
+
+        <div class="col-md-6">
+            <form class="d-flex justify-content-center">
+                <input type="search" class="form-control me-2 w-50" placeholder="Search..." aria-label="Search">
+                <a href="{% url 'ask' %}" class="btn ask-btn">ASK!</a>
+            </form>
+        </div>
+
+        <div class="col-md-3 text-end">
+            <div class="d-flex align-items-center justify-content-end">
+                <div class="flex-shrink-0 dropdown">
+                    <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser2"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="{% static 'img/avatar.jpg' %}" alt="mdo" width="40" height="40"
+                             class="rounded-circle">
+                    </a>
+                    <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2" style="">
+                        <li><a class="dropdown-item" href="{% url 'settings' %}">Settings</a></li>
+                        <li><a class="dropdown-item" href="#">Log out</a></li>
+                    </ul>
+                </div>
+                <div class="ms-2 text-start">
+                    <span class="text-white" style="font-weight: 1000;">ИМЯ</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

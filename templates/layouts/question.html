@@ -1,0 +1,28 @@
+{% load static %}
+
+<!-- Карточка вопроса -->
+<div class="card shadow-sm p-3 mb-3">
+    <div class="d-flex">
+        <img src="{% static question.img_path %}" alt="Автор" class="rounded-circle me-3" width="50"
+             height="50">
+        <div class="flex-grow-1">
+            <a href="{% url 'question' question.id %}" class="fw-bold text-decoration-none text-primary">{{ question.title }}</a>
+            <p class="mb-2 text-muted">{{ question.text }}</p>
+            <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center mes-3">
+                    <button class="btn btn-outline-success btn-sm">▲</button>
+                    <span class="mx-2 fw-bold">12</span>
+                    <button class="btn btn-outline-danger btn-sm">▼</button>
+                </div>
+                <div class="me-3">
+                    <a href="#"><span class="fw-bold">5</span> ответов </a>
+                </div>
+                <div>
+                    <span class="badge bg-secondary">HTML</span>
+                    <span class="badge bg-secondary">CSS</span>
+                    <span class="badge bg-secondary">Bootstrap</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

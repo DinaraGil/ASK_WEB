@@ -1,0 +1,26 @@
+{% load static %}
+
+<div class="container">
+    <div class="d-flex align-items-center justify-content-between">
+        <!-- Логотип -->
+        <a href="/" class="d-flex align-items-center text-white text-decoration-none">
+            <img src="{% static 'img/logo.png' %}" alt="Логотип" class="logo-img me-3">
+        </a>
+
+        <!-- Поле поиска -->
+        <div class="col-md-6">
+            <form class="d-flex justify-content-center">
+                <input type="search" class="form-control me-2 w-50" placeholder="Search..." aria-label="Search">
+                <a href="{% url 'ask' %}" class="btn ask-btn">ASK!</a>
+            </form>
+        </div>
+
+        <!-- Кнопки -->
+        <div class="text-end">
+            <a href="{% url 'login' %}" class="btn btn-outline-light me-2"
+               style="font-weight: 1000; text-decoration: none;">LOGIN</a>
+            <a href="{% url 'signup' %}" class="btn custom-sign-up-btn" style="text-decoration: none;">SIGN-UP</a>
+        </div>
+
+    </div>
+</div>

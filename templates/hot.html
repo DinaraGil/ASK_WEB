@@ -1,17 +1,17 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
 
-{% block title %}INDEX{% endblock %}
+{% block title %}HOT{% endblock %}
 
 {% block header %}{% include 'layouts/header_not_auth.html' %}{% endblock %}
 
 {% block content %}
 
-<div class="main-content">
 
+<div class="main-content">
     <!-- Левая колонка: New Questions -->
-    <h2 class="me-5" style="display: inline;">NEW QUESTIONS</h2>
-    <a href="{% url 'hot' %}" class="mb-3" style="display: inline-block;">HOT QUESTIONS</a>
+    <h2 class="me-5" style="display: inline;">HOT QUESTIONS</h2>
+    <a href="{% url 'home' %}" class="mb-3" style="display: inline-block;">NEW QUESTIONS</a>
 
     {% for question in questions %}
         {% include 'layouts/question.html' %}

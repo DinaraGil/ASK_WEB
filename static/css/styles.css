@@ -25,8 +25,11 @@
 html, body {
     height: 100%;
     margin: 0;
-    padding: 0;
 }
+
+.wrapper {
+  min-height: 100%;
+    margin-bottom: -50px;
 
 h2 {
     font-weight: 1000;
@@ -34,15 +37,10 @@ h2 {
     margin-bottom: 30px;
 }
 
-.main-content {
-    padding-bottom: 50px;
-}
-
-footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
+.footer, .push {
+ /*   width: 100%;
     /* Высота footer */
     height: 50px;
     background: #4056A1;
+   /*  margin-top: auto; */
 }
