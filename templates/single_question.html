@@ -13,15 +13,19 @@
 
     {% include 'layouts/question.html' %}
 
-    <nav aria-label="Навигация по страницам">
-        <ul class="pagination justify-content-center">
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">...</a></li>
-            <li class="page-item"><a class="page-link" href="#">53</a></li>
-        </ul>
-    </nav>
+    {% for answer in answers %}
+    {% include 'layouts/answer.html' %}
+    {% endfor %}
+
+
+    <div class="d-flex justify-content-around align-items-center mb-3">
+            <textarea class="form-control" placeholder="Enter your answer here" id="text_input"
+                      style="height: 200px"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Answer</button>
+
+    {% include 'layouts/paggination.html' %}
 
 </div>
 

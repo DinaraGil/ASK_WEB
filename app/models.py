@@ -18,13 +18,17 @@ class Question(models.Model):
     objects = QuestionManager()
 
     title = models.CharField(max_length=255)
-    text = models.CharField(max_length=1000)
+    text = models.TextField()
     author_id = models.ForeignKey('Profile', on_delete=models.PROTECT)
     tags = models.ManyToManyField('Tag')
     created_at = models.DateTimeField()
 
     def count_likes(self):
         return UserRating.objects.filter(question_id=self, vote=True).count()
+
+    def count_answers(self):
+        return self.answer_set.count()
+
 
 # class QusetionInstance(models.Model):
 #     STATUS_CHOICES = [('t', 'Taken'), ('a', 'Available')]
@@ -56,3 +60,28 @@ class UserRating(models.Model):
     question_id = models.ForeignKey('Question', on_delete=models.CASCADE)
     class Meta:
         unique_together = ('user_id', 'question_id')
+
+
+class AnswerManager(models.Manager):
+    pass
+
+class Answer(models.Model):
+    objects = AnswerManager()
+
+    question = models.ForeignKey('Question', on_delete=models.CASCADE)
+    text = models.TextField()
+    author_id = models.ForeignKey('Profile', on_delete=models.PROTECT)
+    created_at = models.DateTimeField()
+    is_correct = models.BooleanField(default=False)
+
+    def count_likes(self):
+        return AnswerLike.objects.filter(answer_id=self, vote=True).count()
+
+
+class AnswerLike(models.Model):
+    vote = models.BooleanField()
+    user_id = models.ForeignKey('Profile', on_delete=models.CASCADE)
+    answer_id = models.ForeignKey('Answer', on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('user_id', 'answer_id')

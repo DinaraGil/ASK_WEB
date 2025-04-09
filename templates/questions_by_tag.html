@@ -1,0 +1,18 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %}Questions by Tag: {{ tag.name }}{% endblock %}
+
+{% block header %}{% include 'layouts/header_not_auth.html' %}{% endblock %}
+
+{% block content %}
+<div class="main-content">
+    <h2 class="me-5" style="display: inline;">Questions tagged with "{{ tag.name }}"</h2>
+
+    {% for question in questions %}
+        {% include 'layouts/question.html' %}
+    {% endfor %}
+
+    {% include 'layouts/paggination.html' %}
+</div>
+{% endblock %}

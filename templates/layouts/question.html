@@ -15,11 +15,13 @@
                     <button class="btn btn-outline-danger btn-sm">▼</button>
                 </div>
                 <div class="me-3">
-                    <a href="#"><span class="fw-bold">5</span> ответов </a>
+                    <a href="{% url 'question' question.id %}"><span class="fw-bold">{{ question.count_answers }}</span> answers </a>
                 </div>
                 <div>
                     {% for tag in question.tags.all %}
-                        <span class="badge bg-secondary">{{ tag.name }}</span>
+                        <a href="{% url 'questions_by_tag' tag.name %}">
+                            <span class="badge bg-secondary">{{ tag.name }}</span>
+                        </a>
                     {% endfor %}
                 </div>
             </div>
