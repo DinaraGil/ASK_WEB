@@ -19,7 +19,7 @@ questions = Question.objects.all()
 #   })
 
 
-def paginate(objects, request, per_page=5):
+def paginate(objects, request, per_page=10):
     page_number = request.GET.get('page', 1)
     paginator = Paginator(objects, per_page)
     return paginator.get_page(page_number)

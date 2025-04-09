@@ -4,124 +4,117 @@ from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
 from django.utils import timezone
 from app.models import Profile, Tag, Question, Answer, UserRating, AnswerLike
-from faker import Faker
 
-
-# def chunked(iterable, chunk_size):
-#     """Генератор, возвращающий чанки указанного размера."""
-#     for i in range(0, len(iterable), chunk_size):
-#         yield iterable[i:i + chunk_size]
 
 class Command(BaseCommand):
-    help = 'Заполняет базу данных тестовыми данными. Использование: python manage.py fill_db [ratio]'
+    help = 'Заполняет базу данных тестовыми данными для новой модели. Использование: python manage.py fill_db [ratio]'
 
     def add_arguments(self, parser):
         parser.add_argument('ratio', type=int, help='Коэффициент заполнения сущностей')
 
     def handle(self, *args, **options):
         ratio = options['ratio']
-        fake = Faker()
-
         self.stdout.write(f"Запуск заполнения БД с ratio = {ratio}")
 
-        # Вычисляем требуемые количества записей:
-        num_users = ratio  # пользователей
-        num_questions = ratio * 10  # вопросов
-        num_answers = ratio * 100  # ответов
-        num_tags = ratio  # тегов
-        num_ratings = ratio * 100  # оценок пользователей (голосов)
-        num_likes = ratio * 100
+        now = timezone.now()
 
-
-        # Создание тегов
         self.stdout.write("Создание тегов...")
-
-        tag_list = [Tag(name=f"{fake.word()}_{i}") for i in range(num_tags)]
-        Tag.objects.bulk_create(tag_list, batch_size=1000)
+        tags = []
+        for i in range(ratio):
+            tag = Tag(name=f"tag_{i}")
+            tags.append(tag)
+        Tag.objects.bulk_create(tags)
         tags = list(Tag.objects.all())
 
-        # Создание пользователей и профилей
         self.stdout.write("Создание пользователей и профилей...")
-
         profiles = []
-        for i in range(num_users):
-            username = 'user' + str(i),
-            email = f"{username}@example.com"
+        for i in range(ratio):
+            username = f"user_{i}"
+            email = f"user_{i}@example.com"
             user = User.objects.create_user(username=username, email=email, password="password")
-            profile = Profile(user=user)
+            profile = Profile(user=user)  # Дополнительно можно добавить аватар, если необходимо
             profiles.append(profile)
-        Profile.objects.bulk_create(profiles, batch_size=1000)
+        Profile.objects.bulk_create(profiles)
         profiles = list(Profile.objects.all())
 
-        # Создание вопросов
         self.stdout.write("Создание вопросов...")
-        now = timezone.now()
+        num_questions = ratio * 10
         questions = []
         for i in range(num_questions):
+            author = random.choice(profiles)
             question = Question(
+                author_id=author,
                 title=f"Question {i}?",
-                text=f"Text {i}?",
-                author_id=random.choice(profiles),
-                created_at=now
+                text=f"Question text {i}.",
+                created_at=now - timedelta(days=random.randint(0, 365))
             )
             questions.append(question)
-        Question.objects.bulk_create(questions, batch_size=1000)
+        Question.objects.bulk_create(questions)
         questions = list(Question.objects.all())
 
-        # Назначение тегов для вопросов
         self.stdout.write("Привязка тегов к вопросам...")
         for question in questions:
-            # Выбираем от 1 до 3 случайных тегов для каждого вопроса
             question_tags = random.sample(tags, k=random.randint(1, min(3, len(tags))))
             question.tags.add(*question_tags)
 
-        # Создание ответов
         self.stdout.write("Создание ответов...")
-        answer_list = []
+        num_answers = ratio * 100
+        answers = []
         for i in range(num_answers):
+            author = random.choice(profiles)
+            question = random.choice(questions)
             answer = Answer(
-                text=f"Answer {i}?",
-                author_id=random.choice(profiles),
-                question_id=random.choice(questions),
-                created_at=now
+                author_id=author,
+                question=question,
+                text=f"Answer {i}. Answer text.",
+                created_at=now - timedelta(days=random.randint(0, 365)),
+                is_correct=False  # можно дополнительно рандомизировать правильный ответ, если нужно
             )
-            answer_list.append(answer)
-        Answer.objects.bulk_create(answer_list, batch_size=1000)
+            answers.append(answer)
+        Answer.objects.bulk_create(answers)
         answers = list(Answer.objects.all())
 
-        # Создание голосований (вопросов и ответов)
+        self.stdout.write("Создание голосований (лайков) для вопросов и ответов...")
+        num_votes = ratio * 200
+        question_votes = []
+        answer_votes = []
 
-        self.stdout.write("Создание голосований...")
-        rating_set = set()
-        rating_list = []
-        while len(rating_list) < num_ratings:
-            user = random.choice(profiles)
-            question = random.choice(questions)
-            key = (user.id, question.id)
-            if key not in rating_set:
-                rating_set.add(key)
-                rating_list.append(UserRating(
-                    vote=random.choice([True, False]),
-                    user_id=user,
+        question_vote_keys = set()
+        answer_vote_keys = set()
+
+        for i in range(num_votes):
+            voter = random.choice(profiles)
+            vote_value = True
+
+            # Решаем, создаем голосование для вопроса или для ответа
+            if random.choice([True, False]) and questions:
+                question = random.choice(questions)
+                key = (voter.id, question.id)
+                if key in question_vote_keys:
+                    continue
+                question_vote_keys.add(key)
+                rating = UserRating(
+                    vote=vote_value,
+                    user_id=voter,
                     question_id=question
-                ))
-        UserRating.objects.bulk_create(rating_list, batch_size=1000)
+                )
+                question_votes.append(rating)
+            elif answers:
+                answer = random.choice(answers)
+                key = (voter.id, answer.id)
+                if key in answer_vote_keys:
+                    continue
+                answer_vote_keys.add(key)
+                like = AnswerLike(
+                    vote=vote_value,
+                    user_id=voter,
+                    answer_id=answer
+                )
+                answer_votes.append(like)
 
-        answer_like_set = set()  # для контроля уникальности (user.id, answer.id)
-        answerlike_list = []
+        if question_votes:
+            UserRating.objects.bulk_create(question_votes)
+        if answer_votes:
+            AnswerLike.objects.bulk_create(answer_votes)
 
-        while len(answerlike_list) < num_likes:
-            user = random.choice(profiles)
-            answer = random.choice(answers)
-            key = (user.id, answer.id)
-            if key not in answer_like_set:
-                answer_like_set.add(key)
-                vote = random.choice([True, False])  # случайное значение голосования (лайк/дизлайк)
-                answerlike_list.append(AnswerLike(user_id=user, answer_id=answer, vote=vote))
-
-        # Массовая вставка с указанием размера чанка для оптимизации
-        AnswerLike.objects.bulk_create(answerlike_list, batch_size=1000)
-
-        print(f"Добавлено {len(answerlike_list)} оценок для ответов (AnswerLike).")
-
-        self.stdout.write(self.style.SUCCESS("Successfully filled the database!"))
+        self.stdout.write(self.style.SUCCESS("Заполнение базы данных завершено!"))
