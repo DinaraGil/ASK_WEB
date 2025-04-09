@@ -16,12 +16,15 @@ questions = Question.objects.all()
 #     'img_path': "/img/concetemixer.jpg"
 #   })
 
-def index(request):
-    page_num = int(request.GET.get('page', 1))
-    paginator = Paginator(questions, 5)
-    page = paginator.page(page_num)
-    return render(request, 'index.html', context={'questions': page.object_list, 'page_obj': page})
+def paginate(objects, request, per_page=5):
+    page_number = request.GET.get('page', 1)
+    paginator = Paginator(objects, per_page)
+    return paginator.get_page(page_number)
 
+def index(request):
+    questions = Question.objects.get_new()
+    page = paginate(questions, request)
+    return render(request, "index.html", context={'questions': page.object_list, "page_obj": page})
 
 def base(request):
     return render(request, 'base.html')
@@ -41,11 +44,13 @@ def settings(request):
 
 
 def hot(request):
-    page_num = int(request.GET.get('page', 1))
-    paginator = Paginator(questions[::-1], 5)
-    page = paginator.page(page_num)
-    return render(request, 'hot.html', context={'questions': page.object_list, 'page_obj': page})
+    questions = Question.objects.get_hot()
+    page = paginate(questions, request)
+    return render(request, "hot.html", context={'questions': page.object_list, "page_obj": page})
+
+
 
 def question(request, question_id):
-    question_obj = get_object_or_404(Question, pk=question_id)
-    return render(request, 'single_question.html', context={'question': question_obj})
+    question_obj = get_object_or_404(Question, id=question_id)
+    like_count = question_obj.count_likes()
+    return render(request, 'single_question.html', context={'question': question_obj, 'like_count': question_obj.count_likes()})

@@ -11,7 +11,7 @@
             <div class="d-flex align-items-center">
                 <div class="d-flex align-items-center mes-3">
                     <button class="btn btn-outline-success btn-sm">▲</button>
-                    <span class="mx-2 fw-bold">12</span>
+                    <span class="mx-2 fw-bold">{{ question.count_likes }}</span>
                     <button class="btn btn-outline-danger btn-sm">▼</button>
                 </div>
                 <div class="me-3">
@@ -21,9 +21,6 @@
                     {% for tag in question.tags.all %}
                         <span class="badge bg-secondary">{{ tag.name }}</span>
                     {% endfor %}
-
-<!--                    <span class="badge bg-secondary">CSS</span>-->
-<!--                    <span class="badge bg-secondary">Bootstrap</span>-->
                 </div>
             </div>
         </div>
