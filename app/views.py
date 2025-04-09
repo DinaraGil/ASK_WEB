@@ -1,18 +1,20 @@
 from django.contrib.admin.templatetags.admin_list import pagination_tag
 from django.core.paginator import Paginator
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from app.models import Question
 
 # Create your views here.
 from django.http import HttpResponse
 
-questions = []
-for i in range(0,29):
-  questions.append({
-    'title': 'title ' + str(i),
-    'id': i,
-    'text': 'text' + str(i),
-    'img_path': "/img/concetemixer.jpg"
-  })
+questions = Question.objects.all()
+#
+# for i in range(0,29):
+#   questions.append({
+#     'title': 'title ' + str(i),
+#     'id': i,
+#     'text': 'text' + str(i),
+#     'img_path': "/img/concetemixer.jpg"
+#   })
 
 def index(request):
     page_num = int(request.GET.get('page', 1))
@@ -45,4 +47,5 @@ def hot(request):
     return render(request, 'hot.html', context={'questions': page.object_list, 'page_obj': page})
 
 def question(request, question_id):
-    return render(request, 'single_question.html', context={'question': questions[question_id]})
+    question_obj = get_object_or_404(Question, pk=question_id)
+    return render(request, 'single_question.html', context={'question': question_obj})

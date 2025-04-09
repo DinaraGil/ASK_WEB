@@ -18,9 +18,12 @@
                     <a href="#"><span class="fw-bold">5</span> ответов </a>
                 </div>
                 <div>
-                    <span class="badge bg-secondary">HTML</span>
-                    <span class="badge bg-secondary">CSS</span>
-                    <span class="badge bg-secondary">Bootstrap</span>
+                    {% for tag in question.tags.all %}
+                        <span class="badge bg-secondary">{{ tag.name }}</span>
+                    {% endfor %}
+
+<!--                    <span class="badge bg-secondary">CSS</span>-->
+<!--                    <span class="badge bg-secondary">Bootstrap</span>-->
                 </div>
             </div>
         </div>

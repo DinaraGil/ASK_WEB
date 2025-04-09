@@ -2,9 +2,16 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
+class QuestionManager(models.Manager):
+    # def get_alive(self):
+    #     return self.filter(dead_at__is_null = True)
+    pass
 
 class Question(models.Model):
+    objects = QuestionManager()
+
     title = models.CharField(max_length=255)
+    text = models.CharField(max_length=1000)
     author_id = models.ForeignKey('Profile', on_delete=models.PROTECT)
     tags = models.ManyToManyField('Tag')
 
